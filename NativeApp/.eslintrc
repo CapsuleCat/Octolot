@@ -1,0 +1,82 @@
+{
+  "parser": "babel-eslint",
+
+  "env": {
+  },
+
+  "parserOptions": {
+    "allowImportExportEverywhere": true,
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+
+  "settings": {
+    "react": {
+      "createClass": "createClass",
+      "pragma": "React",
+      "version": "15.0"
+    }
+  },
+
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
+
+  "plugins": [
+    "chai-expect",
+    "no-empty-blocks",
+    "no-use-extend-native",
+    "promise",
+    "react",
+    "react-native"
+  ],
+
+  "rules": {
+    "arrow-body-style": [0, "never"],
+    "no-warning-comments": [2, { "terms": ["xxx"], "location": "start" } ],
+    "no-empty": 0,
+
+    "chai-expect/missing-assertion": 2,
+    "chai-expect/terminating-properties": 1,
+
+    "no-use-extend-native/no-use-extend-native": 2,
+
+    "promise/param-names": 2,
+    "promise/always-return": 2,
+    "promise/catch-or-return": 2,
+    "promise/no-native": 0,
+
+    "react/forbid-prop-types": 2,
+    "react/no-children-prop": 2,
+    "react/no-did-mount-set-state": 2,
+    "react/no-did-update-set-state": 2,
+    "react/no-direct-mutation-state": 2,
+    "react/no-find-dom-node": 2,
+    "react/no-is-mounted": 2,
+    "react/no-multi-comp": 2,
+    "react/no-unknown-property": 2,
+    "react/prefer-es6-class": 2,
+    "react/jsx-boolean-value": 2,
+    "react/jsx-closing-bracket-location": 2,
+    "react/jsx-curly-spacing": ["error", "never"],
+    "react/jsx-first-prop-new-line": 2,
+    "react/jsx-handler-names": 2,
+    "react/jsx-indent": 0, # this rule doesn't work correctly
+    "react/jsx-key": 2,
+    "react/jsx-no-bind": 2,
+    "react/jsx-no-duplicate-props": 2,
+    "react/jsx-pascal-case": 2,
+    "react/jsx-sort-props": 2,
+    "react/jsx-space-before-closing": 2,
+    "react/jsx-uses-react": 2,
+    "react/jsx-uses-vars": 2,
+    "react/jsx-wrap-multilines": 2,
+
+    "react-native/no-unused-styles": 2,
+    "react-native/split-platform-components": 2,
+    "react-native/no-inline-styles": 2,
+    "react-native/no-color-literals": 1
+  },
+}
