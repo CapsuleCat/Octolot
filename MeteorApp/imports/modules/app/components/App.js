@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import TaskIndex from '/imports/modules/tasks/components';
+import MyStuff from './MyStuff';
 
 // App component - represents the whole app
 export default class App extends Component {
   render() {
     return (
       <div className="container">
-        <TaskIndex />
+        <MyStuff />
       </div>
     );
   }

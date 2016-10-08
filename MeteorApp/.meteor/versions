@@ -16,6 +16,7 @@ coffeescript@1.0.17
 ddp@1.2.5
 ddp-client@1.2.9
 ddp-common@1.2.6
+ddp-rate-limiter@1.0.5
 ddp-server@1.2.10
 deps@1.0.12
 diff-sequence@1.0.6
@@ -57,6 +58,7 @@ practicalmeteor:mocha-core@1.0.1
 practicalmeteor:sinon@1.14.1_2
 promise@0.8.4
 random@1.0.10
+rate-limit@1.0.5
 react-meteor-data@0.2.9
 reactive-var@1.0.10
 reload@1.1.10
