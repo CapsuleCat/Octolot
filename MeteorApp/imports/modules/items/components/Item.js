@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-const { instanceOf, number, shape, string } = PropTypes;
+const { instanceOf, object, shape, string } = PropTypes;
 
 export default class Item extends Component {
   static propTypes = {
@@ -9,8 +9,8 @@ export default class Item extends Component {
       images: shape({
         small: shape({
           link: string,
-          height: number,
-          width: string
+          height: object,
+          width: object
         }),
       }),
       links: shape({

@@ -84,6 +84,11 @@ const querySearchFromAmazon = (term) => {
   });
 }
 
+Items._ensureIndex({
+  title: 'text',
+  productGroup: 'text',
+});
+
 Meteor.methods({
   // XXX only logged in users can search
   'items.search'(term) {

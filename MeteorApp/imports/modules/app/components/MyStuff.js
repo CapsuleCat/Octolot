@@ -3,8 +3,10 @@ import React, { Component } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import Options from './Options';
-import Search from '/imports/modules/search/components/SearchIndex';
+import AddItems from '/imports/modules/items/components/AddItems';
 import Items from '/imports/modules/items/containers/Items';
+import ItemSearch from '/imports/modules/items/components/Search';
+import Search from '/imports/modules/search/containers/SearchIndex';
 
 class MyStuff extends Component {
 
@@ -12,14 +14,18 @@ class MyStuff extends Component {
     return (
       <div>
         <Header>
-          <Search />
+          <ItemSearch />
         </Header>
 
         <Items />
 
+        <AddItems />
+
         <Footer>
           <Options />
         </Footer>
+
+        <Search />
       </div>
     );
   }
