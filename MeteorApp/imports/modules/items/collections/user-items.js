@@ -6,23 +6,26 @@ import { ITEM_TYPES } from '../constants';
 
 export const UserItems = new Mongo.Collection('userItems');
 
-// XXX Add authentication and authorization to publication
 if (Meteor.isServer) {
   Meteor.publish('userItems', function itemsPublication() {
-    return UserItems.find({});
+    const { userId } = this;
+
+    return UserItems.find({
+      userId,
+    });
   });
 }
 
 Meteor.methods({
-  // XXX only logged in users can insert items
   'items.insert'({
     itemUuid,
     type = ITEM_TYPES.OWN,
   }) {
+    const { userId } = userId;
+
     check(itemUuid, String);
-    check(type, String);
-    // XXX check type is oneOfType
-    const userId = this.userId;
+    check(type, String); // XXX check type is oneOfType
+    check(userId, String);
 
     UserItems.insert({
       itemUuid,

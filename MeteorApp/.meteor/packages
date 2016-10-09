@@ -22,3 +22,6 @@ react-meteor-data
 practicalmeteor:mocha@2.4.5_6
 dispatch:mocha-phantomjs
 ddp-rate-limiter
+accounts-ui
+accounts-facebook
+service-configuration

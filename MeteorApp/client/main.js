@@ -6,6 +6,7 @@ import { createStore, combineReducers } from 'redux';
 
 import a11y from 'react-a11y';
 import App from '/imports/modules/app/components/App';
+import '/imports/modules/auth/startup/config';
 
 const store = createStore(combineReducers(
   {
