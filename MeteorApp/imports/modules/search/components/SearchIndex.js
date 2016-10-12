@@ -4,6 +4,7 @@ import debounce from 'debounce';
 
 import Form from './Form';
 import SearchResults from './Results';
+import { closeSearch } from '../actions';
 
 const { arrayOf, bool, func, shape, string } = PropTypes;
 
@@ -11,6 +12,7 @@ class SearchIndex extends Component {
   static propTypes = {
     handleAdd: func.isRequired,
     handleSearch: func.isRequired,
+    handleCloseSearch: func.isRequired,
     items: arrayOf(shape({
       uuid: string,
     })),
@@ -63,12 +65,11 @@ class SearchIndex extends Component {
   }
 
   handleAddResult = (uuid) => {
-    const { handleAdd } = this.props;
+    const { handleAdd, handleCloseSearch } = this.props;
 
     handleAdd(uuid);
 
-    // TODO probably want to mark the item or something
-    // Maybe even dispatch to close the search
+    handleCloseSearch();
   }
 
   render() {
@@ -107,8 +108,10 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = () => {
-  return {};
+const mapDispatchToProps = dispatch => {
+  return {
+    handleCloseSearch: () => dispatch(closeSearch()),
+  };
 };
 
 export default connect(
