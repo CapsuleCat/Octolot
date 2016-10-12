@@ -5,11 +5,15 @@ import debounce from 'debounce';
 import Form from './Form';
 import SearchResults from './Results';
 
-const { bool, func } = PropTypes;
+const { arrayOf, bool, func, shape, string } = PropTypes;
 
 class SearchIndex extends Component {
   static propTypes = {
+    handleAdd: func.isRequired,
     handleSearch: func.isRequired,
+    items: arrayOf(shape({
+      uuid: string,
+    })),
     show: bool,
   }
 
@@ -59,12 +63,17 @@ class SearchIndex extends Component {
   }
 
   handleAddResult = (uuid) => {
-    // XXX
+    const { handleAdd } = this.props;
+
+    handleAdd(uuid);
+
+    // TODO probably want to mark the item or something
+    // Maybe even dispatch to close the search
   }
 
   render() {
-    const { results, state } = this.state;
-    const { show } = this.props;
+    const { error, results, state } = this.state;
+    const { items, show } = this.props;
 
     if (!show) {
       return null;
@@ -80,6 +89,8 @@ class SearchIndex extends Component {
 
         <div className="search__main">
           <SearchResults
+            error={error}
+            items={items}
             onAddResult={this.handleAddResult}
             results={results}
             state={state}

@@ -31,28 +31,26 @@ if (Meteor.isServer) {
     }
   };
 
-  Meteor.publish('items', function itemsPublication(filter) {
-    check(filter, Match.OneOf(Boolean, String));
+  Meteor.publishComposite('items', (filter) => ({
+    find() {
+      const { userId } = this;
 
-    const { userId } = this;
+      check(filter, Match.OneOf(Boolean, String));
+      check(userId, String);
 
-    const userItems = UserItems.find({
-      userId,
-    });
+      return UserItems.find({
+        userId,
+      });
+    },
+    children: [{
+      find(userItem) {
+        const { selectors, options } = getSelectors(filter);
 
-    const uuids = userItems.map(i => i.itemUuid);
-    const { selectors, options } = getSelectors(filter);
-
-    const items = Items.find({
-      ...selectors,
-      uuid: {
-        $in: uuids,
+        return Items.find({
+          ...selectors,
+          uuid: userItem.itemUuid,
+        }, options);
       }
-    }, options);
-
-    return [
-      userItems,
-      items,
-    ];
-  });
+    }]
+  }));
 }

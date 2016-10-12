@@ -29,7 +29,15 @@ const querySearchFromAmazon = (term) => {
           );
         }
 
-        const parseable = result && result.Items && result.Items.Item instanceof Array;
+        if (result && result.Items &&
+            result.Items.Request &&
+            result.Items.Request.Errors) {
+          return reject(
+            new Meteor.Error(result.Items.Request.Errors, 'We could not get results from Amazon')
+          );
+        }
+
+        const parseable = result && result.Items;
 
         if (!parseable) {
           return reject(
@@ -37,7 +45,9 @@ const querySearchFromAmazon = (term) => {
           );
         }
 
-        const results = result.Items.Item.filter(item => {
+        const wrappedResults = result.Items.Item instanceof Array ? result.Items.Item : [result.Items.Item];
+
+        const results = wrappedResults.filter(item => {
           // skip any results that don't make sense
           return (
             'ASIN' in item &&
@@ -90,9 +100,12 @@ Items._ensureIndex({
 });
 
 Meteor.methods({
-  // XXX only logged in users can search
   'items.search'(term) {
     check(term, String);
+
+    if (! this.userId) {
+      throw new Meteor.Error('not-authorized');
+    }
 
     return Promise.await(querySearchFromAmazon(term));
   }

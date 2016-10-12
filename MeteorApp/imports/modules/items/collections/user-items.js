@@ -16,44 +16,67 @@ if (Meteor.isServer) {
   });
 }
 
+const checkType = (type) => {
+  const typeIsValid = Object.keys(ITEM_TYPES)
+    .map(k => ITEM_TYPES[k])
+    .map(t => t === type)
+    .reduce((a, b) => a || b, false);
+
+  if (! typeIsValid) {
+    throw new Meteor.Error('invalid-type');
+  }
+}
+
 Meteor.methods({
   'items.insert'({
     itemUuid,
     type = ITEM_TYPES.OWN,
   }) {
-    const { userId } = userId;
+    const { userId } = this;
 
     check(itemUuid, String);
-    check(type, String); // XXX check type is oneOfType
-    check(userId, String);
+    check(type, String);
+    checkType(type);
 
-    UserItems.insert({
+    if (! userId) {
+      throw new Meteor.Error('not-authorized');
+    }
+
+    return UserItems.insert({
       itemUuid,
       userId,
       type,
       createdAt: new Date(),
     });
   },
-  // XXX only logged in users can delete items
-  // XXX only the given user id can delete the item
   'items.delete'(id) {
+    const { userId } = this;
+
     check(id, String);
 
-    const userId = this.userId;
+    if (! userId) {
+      throw new Meteor.Error('not-authorized');
+    }
 
-    UserItems.remove({
-      id,
+    return UserItems.remove({
+      _id: id,
+      userId,
     });
   },
-  // XXX only logged in users can move items
-  // XXX only the given user id can delete the item
   'items.move'(id, type) {
+    const { userId } = this;
+
     check(id, String);
     check(type, String);
-    // XXX check type is oneOfType
+    checkType(type);
 
-    UserItems.update({
-      id,
+    if (! userId) {
+      throw new Meteor.Error('not-authorized');
+    }
+
+    return UserItems.update({
+      _id: id,
+      userId,
     }, {
       $set: {
         type,

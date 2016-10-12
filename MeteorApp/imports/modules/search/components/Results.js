@@ -1,15 +1,21 @@
 import React, { Component, PropTypes } from 'react';
 
 import Loading from '/imports/modules/app/components/Loading';
-import Item from '/imports/modules/items/components/Item';
+import Result from './Result';
 
-const { arrayOf, func, oneOf, shape } = PropTypes;
+const { arrayOf, func, oneOf, shape, string } = PropTypes;
 
 export default class Results extends Component {
   static propTypes = {
+    error: shape({
+      reason: string,
+    }),
+    items: arrayOf(shape({
+      uuid: string,
+    })),
     onAddResult: func.isRequired,
     results: arrayOf(shape({
-
+      uuid: string,
     })),
     state: oneOf([
       'INITIAL',
@@ -28,7 +34,11 @@ export default class Results extends Component {
   }
 
   renderError = () => {
-    // TODO use the error to give a better message
+    const { error } = this.props;
+
+    if (error) {
+      return <p>{error.reason}</p>
+    }
     return <p>Something bad happend on our end. Try again in a bit</p>;
   }
 
@@ -37,10 +47,20 @@ export default class Results extends Component {
   }
 
   renderList = () => {
-    const { results } = this.props;
-    return results.map(
-      result => <Item item={result} key={result.uuid} />
-    );
+    const { items, onAddResult, results } = this.props;
+
+    return results.map((result) => {
+      const owned = items.some(i => i.uuid === result.uuid);
+
+      return (
+        <Result
+          isAdded={owned}
+          item={result}
+          key={result.uuid}
+          onAddItem={onAddResult}
+        />
+      );
+    });
   }
 
   renderDefault = () => {
